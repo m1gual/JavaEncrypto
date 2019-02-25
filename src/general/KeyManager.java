@@ -30,20 +30,21 @@ public class KeyManager implements IKeyManager {
         ByteArrayInputStream bis = new ByteArrayInputStream(binaryKey);
         ObjectInput in = new ObjectInputStream(bis);
 
-        if (keyType == KeyType.PUBLIC_KEY) {
-            PublicKey publicKey = (PublicKey) in.readObject();
-            in.close();
-            return publicKey;
-        }
-        if (keyType == KeyType.PRIVATE_KEY) {
-            PrivateKey privateKey = (PrivateKey) in.readObject();
-            in.close();
-            return privateKey;
-        }
-        if (keyType == KeyType.AES_KEY) {
-            SecretKey aesKey = (SecretKey) in.readObject();
-            in.close();
-            return aesKey;
+        switch (keyType) {
+            case AES_KEY:
+                SecretKey aesKey = (SecretKey) in.readObject();
+                in.close();
+                return aesKey;
+
+            case PUBLIC_KEY:
+                PublicKey publicKey = (PublicKey) in.readObject();
+                in.close();
+                return publicKey;
+
+            case PRIVATE_KEY:
+                PrivateKey privateKey = (PrivateKey) in.readObject();
+                in.close();
+                return privateKey;
         }
 
         return null;
