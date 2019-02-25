@@ -1,13 +1,7 @@
 package general;
 
 import javax.crypto.SecretKey;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
@@ -69,17 +63,7 @@ public class KeyManager implements IKeyManager {
         Decoder b64e = Base64.getDecoder();
         byte[] binaryKey = b64e.decode(textKey);
 
-        if (keyType == KeyType.PUBLIC_KEY) {
-            return readSerializedKey(binaryKey, keyType);
-        }
-        if (keyType == KeyType.PRIVATE_KEY) {
-            return readSerializedKey(binaryKey, keyType);
-        }
-        if (keyType == KeyType.AES_KEY) {
-            return readSerializedKey(binaryKey, keyType);
-        }
-
-        return null;
+        return readSerializedKey(binaryKey, keyType);
     }
 
     @Override
@@ -119,4 +103,5 @@ public class KeyManager implements IKeyManager {
 
         return hex.toString().toUpperCase();
     }
+
 }
