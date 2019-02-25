@@ -1,4 +1,4 @@
-package rsa;
+package general;
 
 import java.io.IOException;
 
@@ -10,4 +10,6 @@ public interface IKeyManager {
     String encodeKey(Object key) throws IOException;
 
     Object readEncodedKey(String textKey, KeyType keyType) throws IOException, ClassNotFoundException;
+
+
 }

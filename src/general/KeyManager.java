@@ -1,5 +1,6 @@
-package rsa;
+package general;
 
+import javax.crypto.SecretKey;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -13,7 +14,7 @@ import java.util.Base64;
 import java.util.Base64.Decoder;
 import java.util.Base64.Encoder;
 
-public class RSAKeyManager implements IKeyManager {
+public class KeyManager implements IKeyManager {
 
     @Override
     public byte[] serializeKey(Object key) throws IOException {
@@ -43,6 +44,11 @@ public class RSAKeyManager implements IKeyManager {
             in.close();
             return privateKey;
         }
+        if (keyType == KeyType.AES_KEY) {
+            SecretKey aesKey = (SecretKey) in.readObject();
+            in.close();
+            return aesKey;
+        }
 
         return null;
     }
@@ -62,10 +68,13 @@ public class RSAKeyManager implements IKeyManager {
         byte[] binaryKey = b64e.decode(textKey);
 
         if (keyType == KeyType.PUBLIC_KEY) {
-            return readSerializedKey(binaryKey, KeyType.PUBLIC_KEY);
+            return readSerializedKey(binaryKey, keyType);
         }
         if (keyType == KeyType.PRIVATE_KEY) {
-            return readSerializedKey(binaryKey, KeyType.PRIVATE_KEY);
+            return readSerializedKey(binaryKey, keyType);
+        }
+        if (keyType == KeyType.AES_KEY) {
+            return readSerializedKey(binaryKey, keyType);
         }
 
         return null;
