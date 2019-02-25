@@ -1,6 +1,7 @@
 package general;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public interface IKeyManager {
     byte[] serializeKey(Object key) throws IOException;
@@ -11,5 +12,5 @@ public interface IKeyManager {
 
     Object readEncodedKey(String textKey, KeyType keyType) throws IOException, ClassNotFoundException;
 
-
+    String getMDHash(String textKey, DigestAlgorithm digestAlgorithm) throws NoSuchAlgorithmException;
 }
